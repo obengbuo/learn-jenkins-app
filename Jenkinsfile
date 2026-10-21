@@ -71,7 +71,7 @@ pipeline {
         }
 
 
-        stage('Deploy Staging') {
+        stage('Deploy to Staging') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -82,7 +82,7 @@ pipeline {
                 sh '''
                  npm install netlify-cli@20.1.1
                  node_modules/.bin/netlify --version 
-                 echo "Deploying to Staging. Site ID: $NETLIFY_SITE_ID"
+                 echo "Deploying to Netlify site ID: $NETLIFY_SITE_ID"
                  node_modules/.bin/netlify status
                  node_modules/.bin/netlify deploy --dir=build
                 '''
@@ -123,9 +123,9 @@ pipeline {
                         sh '''
                             npx playwright test
                         '''
-                    }*/
+                    }
 
-                }
+                }*/
     }
 
     post {
