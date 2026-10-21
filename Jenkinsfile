@@ -87,6 +87,26 @@ pipeline {
                 '''
             }
         }
+
+        stage ('Prod E2E Tests') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
+
+                    environment {
+                        CI_ENVIRONMENT_URL = 'https://chimerical-lokum-018a14.netlify.app/'
+                    }
+
+                    steps {
+                        sh '''
+                            npx playwright test
+                        '''
+                    }
+
+                }
     }
 
     post {
