@@ -89,6 +89,14 @@ pipeline {
             }
         }
 
+        stage('Approval') {
+            steps {
+                timeout(time: 15, unit: 'MINUTES') {
+                    input message: 'Approve deployment to production?', ok: 'Deploy', submitter: 'kbuo1'
+                }
+            }
+        }
+
         stage('Deploy Prod') {
             agent {
                 docker {
