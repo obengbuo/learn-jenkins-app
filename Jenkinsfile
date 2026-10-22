@@ -116,32 +116,28 @@ pipeline {
             }
         }
 
-        /*stage ('Prod E2E Tests') {
-                    agent {
-                        docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                            reuseNode true
-                        }
-                    }
+        stage ('Prod E2E Tests') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
 
-                    environment {
-                        CI_ENVIRONMENT_URL = 'https://chimerical-lokum-018a14.netlify.app/'
-                    }
+            environment {
+                CI_ENVIRONMENT_URL = 'https://chimerical-lokum-018a14.netlify.app/'
+            }
 
-                    steps {
-                        sh '''
-                            npx playwright test
-                        '''
-                    }
+            steps {
+                sh '''
+                    npx playwright test
+                '''
+            }
 
-                }*/
-    }
-
-    post {
-        always {
-
-            junit 'jest-results/*.xml'
-           
+        post {
+            always {
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Prod E2E', reportTitles: '', useWrapperFileDirectly: true])
+            }
         }
     }
     
